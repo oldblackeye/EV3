@@ -63,7 +63,7 @@ def lineFollowing(color1, color2, sensorDif):
     print(PID)
 
     #
-    while(color1 > 10 and color2 > 10)
+    while(color1 > 10 and color2 > 10):
         if(error < desired):
             mA.duty_cycle_sp = baseSpeed - abs(int(baseSpeed * PID))
         if(error > desired):
@@ -72,8 +72,21 @@ def lineFollowing(color1, color2, sensorDif):
 
 
 def setMotorSpeed(dutyA, dutyB):
-    mA.duty_cycle_sp = dutyA
-    mB.duty_cycle_sp = dutyB
+    if(dutyA < 0):
+        mA.polarity = mA.POLARITY_INVERSED
+        mA.duty_cycle_sp = abs(dutyA)
+    else:
+        mA.polarity = mA.POLARITY_NORMAL
+        mA.duty_cycle_sp = dutyA
+
+    if(dutyB < 0):
+        mB.polarity = mB.POLARITY_INVERSED
+        mB.duty_cycle_sp = abs(dutyB)
+    else:
+        mB.polarity = mB.POLARITY_NORMAL
+        mB.duty_cycle_sp = dutyB
+
+
 
 def getSensorDif(A,B):
     return A-B #sensor value A-B
@@ -108,14 +121,27 @@ def goToEncoderPos(nA, nB, speed, inversed):
 
     mA.run_to_rel_pos(position_sp=nA, speed_sp=speed, stop_action="brake")
     mB.run_to_rel_pos(position_sp=nB, speed_sp=speed, stop_action="brake")
+    encoderThreshold = 3
+
     while nA != mA.position and nB != mB.position:
-        posA = mA.position#nnothing
+        if(nA < mA.position + encoderThreshold and nA > mA.position + encoderThreshold):
+            if(nB < mB.position+encoderThreshold and nB > mB.position + encoderThreshold):
+                break;
+        posA = mA.position #nnothing
 
     mA.polarity = mA.POLARITY_NORMAL
     mB.polarity = mB.POLARITY_NORMAL
     mA.run_direct()
     mB.run_direct()
 
+
+def turn(angle):
+    encoderPos = round((angle /360) * mA.count_per_rot) #gets the number of tacho counts to rotate "angle" degrees
+    if(angle < 0 ):
+        setMotorSpeed(-30,30)
+
+    if(angle > 0):
+        setMotorSpeed(30,-30)
 
 
 
@@ -136,11 +162,18 @@ while True:
     #print("SP pos: ",mA.position_sp)
     #print("pos: ", mA.position)
 
+    #Next state logic
+    actionQ = ['u', 'p', 'r', 'l', 'd']
 
-    if abs(getSensorDif(color1,color2)) > threshold:
-        lineFollowing(color1,color2,sensorDif)
-    elif color1 < threshold and color2 < threshold:
-        setMotorSpeed(50,50)
+    if(color1 < threshold and color2 < threshold):  #If intersection, go to next state
+        nxState = actionQ.pop(0)
+
+    #State logic
+    if(nxState == 'u'):
+        if abs(getSensorDif(color1, color2)) > threshold:
+            lineFollowing(color1, color2, sensorDif)
+    if(nxState == 'p'):
+        turn(180)
     else:
         setMotorSpeed(50,50)
 
