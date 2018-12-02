@@ -17,14 +17,7 @@ mB.run_direct()
 sColor1 = ev3.ColorSensor('in1')
 sColor2 = ev3.ColorSensor('in4')
 
-sTouch = ev3.TouchSensor('in2')
 
-
-
-# Maps:
-eightPushCanMap = "fDrllDlrrDlrrDlrrDlrrDrllDrllDrll"
-
-solutionMap = "fDlrffrfffrfDrllfffDbffrfflfllDlrrfDrllffDrllffDrllDlffrfffrfflffllffDlrrfDrllffDrllDlfffrflfflfllDlrrffDlrrfDrllffDrlflffDbrDlDlrrD"
 
 # Put the color sensor into COL-REFLECT mode
 # to measure reflected light intensity.
@@ -32,7 +25,7 @@ solutionMap = "fDlrffrfffrfDrllfffDbffrfflfllDlrrfDrllffDrllffDrllDlffrfffrfflff
 sColor1.mode = 'COL-REFLECT'
 sColor2.mode = 'COL-REFLECT'
 
-threshold = 20
+threshold = 15
 
 mA.position = 0
 mB.position = 0
@@ -43,7 +36,7 @@ tick = time.time()
 
 
 #Max kp val 0.054
-Kp = 0.01
+Kp = 0.02
 Ki = 0.001
 Kd = 0.0001
 
@@ -66,11 +59,13 @@ def lineFollowing(color1, color2, sensorDif):
     PID = P_value + D_value
     #+ I_value + D_value
 
-    baseSpeed = 100
+    baseSpeed = 40
     #print(PID)
 
+    #
+
     if(error < desired):
-        mA.duty_cycle_sp = baseSpeed - abs(int(baseSpeed * PID)) # We can't add and subtract at the same time due to turns
+        mA.duty_cycle_sp = baseSpeed - abs(int(baseSpeed * PID))
     if(error > desired):
         mB.duty_cycle_sp = baseSpeed - abs(int(baseSpeed * PID))
 
@@ -82,14 +77,14 @@ def setMotorSpeed(dutyA, dutyB):
         mA.duty_cycle_sp = abs(dutyA)
     else:
         mA.polarity = mA.POLARITY_NORMAL
-        mA.duty_cycle_sp = abs(dutyA)
+        mA.duty_cycle_sp = dutyA
 
     if(dutyB < 0):
         mB.polarity = mB.POLARITY_INVERSED
         mB.duty_cycle_sp = abs(dutyB)
     else:
         mB.polarity = mB.POLARITY_NORMAL
-        mB.duty_cycle_sp = abs(dutyB)
+        mB.duty_cycle_sp = dutyB
 
 
 
@@ -124,11 +119,16 @@ def goToEncoderPos(nA, nB, speed, inversed):
         mA.polarity = mA.POLARITY_INVERSED
         mB.polarity = mB.POLARITY_INVERSED
 
-    mA.run_to_rel_pos(position_sp=nA+15, speed_sp=speed, stop_action="brake")#10 is a tuning parameter to prevent not
-    mB.run_to_rel_pos(position_sp=nB+15, speed_sp=speed, stop_action="brake")#reaching the encoder position
+    mA.run_to_rel_pos(position_sp=nA+10, speed_sp=speed, stop_action="brake")#10 is a tuning parameter to prevent not
+    mB.run_to_rel_pos(position_sp=nB+10, speed_sp=speed, stop_action="brake")#reaching the encoder position
     encoderThreshold = 5
 
     while True:
+        #print("nA: ", nA)
+        #print("mA position: ", mA.position)
+        #print("nB: ", nB)
+        #print("mB position: ", mB.position)
+
         if(nA < mA.position + encoderThreshold and nA < mA.position - encoderThreshold):
             if(nB < mB.position + encoderThreshold and nB < mB.position - encoderThreshold):
                 mA.run_direct()
@@ -145,124 +145,69 @@ def isOnLine(sensorData):
 
 
 def turn(angle):
-        mA.position = 0
-        mB.position = 0
-        goToEncoderPos(mA.position + 40, mB.position + 40, 200,0)
-
-        mA.position = 0
-        mB.position = 0
-        encoderPosA = mA.position + ((angle/180) * mA.count_per_rot) #gets the number of tacho counts to rotate "angle" degrees
-        encoderPosB = mB.position - ((angle / 180) * mB.count_per_rot)
-        goToEncoderPos(encoderPosA,encoderPosB,200,0)
-
-
-def deliverCan():
-    # Line-follow until a certain position to accurately position can.
     mA.position = 0
     mB.position = 0
-    desiredCanLocation = 440
+    goToEncoderPos(mA.position + 20, mB.position + 20, 200,0)
 
-    while(mA.position < desiredCanLocation):
-        color1 = sColor1.value()
-        color2 = sColor2.value()
-        sensorDif = getSensorDif(color1, color2)
-        setMotorSpeed(50,50)
-        mA.polarity = mA.POLARITY_NORMAL
-        mB.polarity = mA.POLARITY_NORMAL
-        if abs(getSensorDif(color1, color2)) > threshold:
-            lineFollowing(color1, color2, sensorDif)
+    mA.position = 0
+    mB.position = 0
+    encoderPosA = mA.position + ((angle/180) * mA.count_per_rot) #gets the number of tacho counts to rotate "angle" degrees
+    encoderPosB = mB.position - ((angle / 180) * mB.count_per_rot)
+    goToEncoderPos(encoderPosA,encoderPosB,200,0)
 
 
-
-    setMotorSpeed(-50, -50)
-    while(not(color1 < threshold and color2 < threshold)): # drive backwards
-        color1 = sColor1.value()
-        color2 = sColor2.value()
-
-    setMotorSpeed(50,50)
-
-
-def calibration():
-    while True:
-        color1 = sColor1.value()
-        color2 = sColor2.value()
-        difference = color1 - color2
-
-        print("Color1: ", color1,  "Color2: ", color2, "Difference: ", difference)
-
-
-def waitForButtonPush():
-    touchValue = 0
-    while touchValue != 1:
-        touchValue = sTouch.value()
-
-    time.sleep(1)
 
 def exitCommand():
     setMotorSpeed(0,0)
 
 atexit.register(exitCommand)
 
+#printSample(500)
 
-currentState = 'f'
-onLineVar = False
+
 action = 0
-
-#Calibration function
-#calibration()
-
-ev3.Sound.beep(500)
-
-#start by pressing the start button
-waitForButtonPush()
-
-killSwitch = 0
-
-actionQ = solutionMap
-
-while killSwitch != 1:
-    killSwitch = sTouch.value()
+while True:
+    currentState = 'b'
     color1 = sColor1.value()
     color2 = sColor2.value()
+    print("Color1:", color1)
+    print("color2:", color2)
+
 
     sensorDif = getSensorDif(color1,color2)
+    #print("Color dif: ", getSensorDif(color1,color2))
+    #print("SP pos: ",mA.position_sp)
+    #print("pos: ", mA.position)
 
     #Next state logic
-
-    if(action == len(actionQ)):
-        break
-
-    if(color1 < threshold and color2 < threshold and onLineVar == False):  #If intersection, go to next state
+    actionQ = "rllllrrr"
+    if(color1 < threshold and color2 < threshold):  #If intersection, go to next state
         currentState = actionQ[action]
-        onLineVar = True
         action = action + 1
-    if(color1 > threshold and color2 > threshold and onLineVar == True):
-        onLineVar = False
+        if(len(actionQ) == action): #repeat at end of action Q
+            action = 0
 
     #State logic
-    if(currentState == 'f'):
-        mA.polarity = mA.POLARITY_NORMAL
-        mB.polarity = mA.POLARITY_NORMAL
+    if(currentState == 'u'):
+        setMotorSpeed(40,40)
         if abs(getSensorDif(color1, color2)) > threshold:
+            mA.polarity = mA.POLARITY_NORMAL
+            mB.polarity = mA.POLARITY_NORMAL
             lineFollowing(color1, color2, sensorDif)
-        else:
-            setMotorSpeed(70, 70)
     if(currentState == 'r'):
-        turn(100)
-        currentState = 'f'
+        turn(90)
     if(currentState == 'l'):
-        turn(-95)
-        currentState = 'f'
+        turn(-90)
     if(currentState == 'b'):
-        turn(210)
-        currentState = 'f'
-    if(currentState == 'D'):
-        deliverCan()
-        onLineVar = False
-        currentState = 'f'
+        if abs(getSensorDif(color1, color2)) > threshold:
+            mA.polarity = mA.POLARITY_INVERSED
+            mB.polarity = mA.POLARITY_INVERSED
+            lineFollowing(color2, color1, sensorDif)
 
 
-# Play Victory music:
-ev3.Sound.play('/home/robot/SS2.wav')
+
+
+
+
 
 

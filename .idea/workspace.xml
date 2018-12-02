@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="985a441f-3b6b-4144-b0ac-423828490e71" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/botScript.py" beforeDir="false" afterPath="$PROJECT_DIR$/botScript.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,12 +15,13 @@
     <session id="1083996758">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="8" />
+          <entry key="project.closed" value="9" />
           <entry key="project.open.time.0" value="1" />
-          <entry key="project.open.time.3" value="9" />
-          <entry key="project.open.time.4" value="1" />
+          <entry key="project.open.time.3" value="10" />
+          <entry key="project.open.time.4" value="3" />
+          <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.6" value="2" />
-          <entry key="project.opened" value="13" />
+          <entry key="project.opened" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -34,12 +36,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="5713" />
+          <entry key="py" value="10221" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="5713" />
+          <entry key="Python" value="10221" />
         </counts>
       </usages-collector>
     </session>
@@ -49,15 +51,18 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/botScript.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1013">
-              <caret line="177" column="28" lean-forward="true" selection-start-line="177" selection-start-column="28" selection-end-line="177" selection-end-column="28" />
+            <state relative-caret-position="625">
+              <caret line="248" column="33" lean-forward="true" selection-start-line="248" selection-start-column="33" selection-end-line="248" selection-end-column="33" />
               <folding>
                 <element signature="e#20#44#0" expanded="true" />
-                <marker date="1542619952974" expanded="true" signature="1584:1586" ph="..." />
-                <marker date="1542619952974" expanded="true" signature="2013:2018" ph="..." />
-                <marker date="1542619952974" expanded="true" signature="2013:3628" ph="..." />
-                <marker date="1542619952974" expanded="true" signature="2067:3628" ph="..." />
-                <marker date="1542619952974" expanded="true" signature="3316:3536" ph="..." />
+                <marker date="1543792861120" expanded="true" signature="1828:1830" ph="..." />
+                <marker date="1543792861120" expanded="true" signature="2267:2272" ph="..." />
+                <marker date="1543792861120" expanded="true" signature="2267:5421" ph="..." />
+                <marker date="1543792861120" expanded="true" signature="2321:5421" ph="..." />
+                <marker date="1543792861120" expanded="true" signature="3535:3614" ph="..." />
+                <marker date="1543792861120" expanded="true" signature="4066:4071" ph="..." />
+                <marker date="1543792861120" expanded="true" signature="4810:5143" ph="..." />
+                <marker date="1543792861120" expanded="true" signature="5161:5166" ph="..." />
               </folding>
             </state>
           </provider>
@@ -76,6 +81,11 @@
     <findStrings>
       <find>color dif</find>
       <find>thre</find>
+      <find>inver</find>
+      <find>thres</find>
+      <find>print</find>
+      <find>setMo</find>
+      <find>40</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -89,9 +99,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="4">
-    <option name="x" value="67" />
+    <option name="x" value="802" />
     <option name="y" value="27" />
-    <option name="width" value="1158" />
+    <option name="width" value="1108" />
     <option name="height" value="1053" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -100,6 +110,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -111,7 +122,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -171,15 +181,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="27" width="1158" height="1053" extended-state="4" />
+    <frame x="802" y="27" width="1108" height="1053" extended-state="4" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18678415" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.078341015" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3286026" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3286026" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -199,15 +209,18 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/botScript.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1013">
-          <caret line="177" column="28" lean-forward="true" selection-start-line="177" selection-start-column="28" selection-end-line="177" selection-end-column="28" />
+        <state relative-caret-position="625">
+          <caret line="248" column="33" lean-forward="true" selection-start-line="248" selection-start-column="33" selection-end-line="248" selection-end-column="33" />
           <folding>
             <element signature="e#20#44#0" expanded="true" />
-            <marker date="1542619952974" expanded="true" signature="1584:1586" ph="..." />
-            <marker date="1542619952974" expanded="true" signature="2013:2018" ph="..." />
-            <marker date="1542619952974" expanded="true" signature="2013:3628" ph="..." />
-            <marker date="1542619952974" expanded="true" signature="2067:3628" ph="..." />
-            <marker date="1542619952974" expanded="true" signature="3316:3536" ph="..." />
+            <marker date="1543792861120" expanded="true" signature="1828:1830" ph="..." />
+            <marker date="1543792861120" expanded="true" signature="2267:2272" ph="..." />
+            <marker date="1543792861120" expanded="true" signature="2267:5421" ph="..." />
+            <marker date="1543792861120" expanded="true" signature="2321:5421" ph="..." />
+            <marker date="1543792861120" expanded="true" signature="3535:3614" ph="..." />
+            <marker date="1543792861120" expanded="true" signature="4066:4071" ph="..." />
+            <marker date="1543792861120" expanded="true" signature="4810:5143" ph="..." />
+            <marker date="1543792861120" expanded="true" signature="5161:5166" ph="..." />
           </folding>
         </state>
       </provider>
